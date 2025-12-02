@@ -200,9 +200,11 @@ On entering explore or combat from other states, `drawHudStatic()` is called aga
 
 ## Showcase
 <img width="1608" height="1068" alt="image" src="https://github.com/user-attachments/assets/10e53068-6e63-418a-9b8a-e8aba682a46d" />
+![ ](https://github.com/user-attachments/assets/693b7fa8-1403-4b59-b4bb-e7304f273424)
+
 
 [Play it yourself!](https://wokwi.com/projects/449226081809266689)
-[Video]()
+[Video](https://youtu.be/bY-bsI6A_cs)
 
 ***
 
