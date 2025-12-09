@@ -478,13 +478,15 @@ In `STATE_EXPLORE` and `STATE_COMBAT`, pressing Pause (A5):
 - Joystick switch returns to `STATE_PAUSE`.
 
 ***
+## Showcase
+![2 1](https://github.com/user-attachments/assets/1514b8b1-fb73-40e1-b06c-e404cc1a42e5)
+![2 2](https://github.com/user-attachments/assets/f4f1fca7-9a7e-4e65-a5c9-76371b568895)
+![2 3](https://github.com/user-attachments/assets/d033a8f1-e9a4-4f14-8cbe-fd0d644d501a)
 
-## Main Differences vs Checkpoint 1
 
-- World: from 2 fixed 8×8 rooms to a 16×16 map with an 8×8 scrolling viewport.  
-- Enemies: from one mole to multiple moles with kill count and HP/shield combat.  
-- Items: new healing potions visible on the matrix and applied on pickup.  
-- Combat: from one strict 2×2 spell to two bitmap spells plus a pixel budget that grows (+4 per kill).  
-- UI: new pause button and pause menu, a spells viewer inside pause, and a HUD focused on HP and kills.  
-- Narrative: optional intro story and a first‑spell tutorial integrated into the game flow.
+
+[Play it yourself!](https://wokwi.com/projects/449886919352617985)
+[Video](https://youtu.be/iJmGpDPZHa4)
+
+***
 
