@@ -32,7 +32,7 @@ LedControl   matrix(MATRIX_DIN, MATRIX_CLK, MATRIX_LOAD, 1);
 LiquidCrystal lcd(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 
 // intro skip flag
-const bool SKIP_INTRO = true;
+const bool SKIP_INTRO = false;
 
 // game states
 enum GameState {
