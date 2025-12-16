@@ -473,8 +473,6 @@ void playShieldSound() {
 
 void playStunSuccessSound() {
   tone(BUZZER_PIN, 1000, 80);
-  delay(90);
-  tone(BUZZER_PIN, 1300, 80);
 }
 
 void playStunFailSound() {
