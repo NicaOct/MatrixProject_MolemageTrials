@@ -819,3 +819,16 @@ Limited I/O becomes part of the game design rather than a constraint.
 ### 4. Non‑blocking Flow
 
 Using `millis()` instead of `delay()` keeps the loop responsive, allows multiple parallel timers (animations, messages, cooldowns), and makes it easier to add new effects without freezing the rest of the game.
+
+***
+## Showcase
+
+![1a](https://github.com/user-attachments/assets/565df2c6-26a3-4bcf-9333-5c7a8eac5def)
+![2a](https://github.com/user-attachments/assets/5bda1610-de58-4da1-8d5f-0f44a3d5975a)
+![3a](https://github.com/user-attachments/assets/c35d0e63-7b2e-4af9-bb11-03d3eeb14426)
+![4a](https://github.com/user-attachments/assets/453d5ab6-dbff-408c-a7bc-d66316ca5838)
+
+
+[Video](https://youtu.be/qKX8waVqMMQ)
+
+***
