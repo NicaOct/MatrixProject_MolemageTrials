@@ -1743,7 +1743,7 @@ void moleTurn() {
   } else {
     // mole SHIELD
     playShieldSound();
-    moleShield = 6;
+    moleShield += 6;
     lastMoleAction = MOLE_ACT_SHIELD;
   }
 }
