@@ -20,11 +20,11 @@ You wake up in a twisted, maze‑like dungeon with no memory of what came before
 
 ### Buttons
 
-- **DRAW Button**:
-  - In combat: sets a pixel at the cursor position, up to a per‑turn limit (`pixelsPerTurn`).
-- **CLEAR Button**:
+- **CLEAR Button (Left)**:
   - In combat: clears all pixels drawn this turn, letting you redraw the rune.
-- **PAUSE Button**:
+- **DRAW Button (Middle)**:
+  - In combat: sets a pixel at the cursor position, up to a per‑turn limit (`pixelsPerTurn`).
+- **PAUSE Button(Right)**:
   - In explore/combat: opens the pause menu (Resume, Show Spells, Exit).
 
 ### Ultrasonic Sensor (HC‑SR04)
