@@ -32,7 +32,7 @@ LedControl   matrix(MATRIX_DIN, MATRIX_CLK, MATRIX_LOAD, 1);
 LiquidCrystal lcd(LCD_RS, LCD_EN, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 
 // intro skip flag
-const bool SKIP_INTRO = false;
+const bool SKIP_INTRO = true;
 
 // game states
 enum GameState {
@@ -127,7 +127,7 @@ const unsigned long ESCAPE_COOLDOWN_DURATION = 1500; // 1.5s
 
 
 // multiple moles
-const int MOLE_COUNT = 5;
+const int MOLE_COUNT = 0;
 int moleGX[MOLE_COUNT];
 int moleGY[MOLE_COUNT];
 bool moleAliveArr[MOLE_COUNT];
