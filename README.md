@@ -2,10 +2,51 @@
 
 **Molemage Trials** is a turn–based dungeon crawler built on Arduino UNO, combining an 8×8 LED matrix, a 16×2 LCD, a joystick, buttons, a buzzer, and an HC‑SR04 distance sensor into a cohesive, fully playable game.
 
+---
+
+## Showcase
+
+![1a](https://github.com/user-attachments/assets/565df2c6-26a3-4bcf-9333-5c7a8eac5def)
+![2a](https://github.com/user-attachments/assets/5bda1610-de58-4da1-8d5f-0f44a3d5975a)
+![3a](https://github.com/user-attachments/assets/c35d0e63-7b2e-4af9-bb11-03d3eeb14426)
+![4a](https://github.com/user-attachments/assets/453d5ab6-dbff-408c-a7bc-d66316ca5838)
+
+[Video](https://youtu.be/qKX8waVqMMQ)
+
+---
+
+## Project Objectives
+
 The project explores:
 - non‑blocking game loops with `millis()` instead of `delay()`,  
 - a simple but complete game architecture (states, combat system, spells, map & camera),  
 - embedding game‑design ideas (risk–reward, resource management, stun/escape mechanics) into very limited hardware.
+
+---
+
+## Non‑Blocking Architecture
+
+One of the main goals of the project is to avoid `delay()` and keep the game responsive. The gameplay is implemented as a **state machine** using `millis()` timers:
+
+- **Game states** (`gameState`): INTRO, TUTORIAL, MENU, EXPLORE, COMBAT, PAUSE, WIN, LOSE.
+- Each `loopX()` function handles one state (e.g. `loopExplore()`, `loopCombat()`).
+- Timed sequences (intro texts, tutorial, enemy turn messages, animations) use:
+  - an enum for sub‑states,
+  - `unsigned long stateStartTime`,
+  - `if (millis() - stateStartTime >= duration)` to progress.
+
+Examples:
+
+- Tutorial intro:
+  - sequences of texts and the spell hint are implemented with `TutorialIntroState` and `tutorialIntroStateStart`.
+- Enemy turn:
+  - `enemyTurnActive`, `enemyMessageActive`, `enemyTurnStartTime`, `enemyMessageStartTime` control delays between enemy action and message display without blocking the main loop.
+- Attack / shield animations:
+  - small internal animation states (`AttackAnimState`, `ShieldAnimState`) updated each frame via `updateAttackAnimation()` / `updateShieldAnimation()`.
+
+This design allows:
+- continuous polling of inputs,
+- multiple “timers” (animations, messages, blinking cursors, escape cooldown) running in parallel on a single‑threaded microcontroller.
 
 ---
 
@@ -56,18 +97,6 @@ The project explores:
   - `ECHO` → 3
 
 Pin numbers in code can be adjusted, but README assumes the mapping above.
-
----
-
-## How to Build & Run
-
-1. **Wire the hardware** according to the pinout above.
-2. Open the `.ino` sketch in **Arduino IDE**.
-3. Make sure you have:
-   - `LedControl.h`
-   - `LiquidCrystal.h`
-4. Upload the sketch to the Arduino UNO.
-5. After reset, the game starts in the **Main Menu**.
 
 ---
 
@@ -169,7 +198,6 @@ Combat is **turn‑based**:
 ### Spells
 
 #### Attack
-
 - Bitmap: `ATTACK_SPELL[8]` (8×8 pattern).
 - When recognized:
   - `applyMageAttack()`:
@@ -180,21 +208,17 @@ Combat is **turn‑based**:
   - Plays an attack animation (non‑blocking) and a buzzer sound.
 
 #### Shield
-
 - Bitmap: `SHIELD_SPELL[8]`.
 - When recognized:
   - `applyMageShield()`:
     - `mageShield = 4` (or `+= 4` if you choose stacking),
   - Starts a shield animation and shield sound.
-
 - Mole attacks are reduced by `mageShield`, then `mageShield` resets to 0.
 
 #### Stun
-
 - Bitmap: `STUN_SPELL[8]`.
 - When recognized, the game simulates what the mole would do this turn:
   - a random roll decides **plannedAction** ∈ {attack, shield} based on `MOLE_ATTACK_CHANCE`.
-
 - If **plannedAction = SHIELD**:
   - Stun **succeeds**:
     - `moleShield = 0`,
@@ -203,7 +227,6 @@ Combat is **turn‑based**:
     - LCD: “Stun success / Mole stunned”,
     - Stun success sound is played,
     - enemy turn phase only shows that the mole is stunned.
-
 - If **plannedAction = ATTACK**:
   - Stun is **ignored** for this turn:
     - `moleTurn()` runs as a normal attack,
@@ -223,7 +246,6 @@ The HC‑SR04 adds a **“panic escape”** mechanic:
   - if distance `< threshold` (e.g. 8 cm) once, `escapeRequested = true`.
 
 Design rules:
-
 1. You cannot flee immediately:
    - the **first full round** must still be played:
      - you cast a spell,
@@ -236,38 +258,9 @@ Design rules:
    - If you didn’t request escape, `escapePossibleThisCombat` is set to false and you can no longer flee in that combat.
 
 To avoid re‑entering combat immediately (because you’re still near the mole), there is an **escape cooldown**:
-
 - `escapeCooldownActive = true` for a short duration in explore mode.
 - During cooldown, `isNearMole()` is ignored when deciding to start a new combat.
 - After the cooldown, you can re‑engage the same mole, but its stats are fresh.
-
-This creates a trade‑off: escape can save you from a lethal mistake but always costs you at least one enemy turn (and possibly HP), and you must re‑fight the mole from scratch.
-
----
-
-## Non‑Blocking Architecture
-
-One of the main goals of the project is to avoid `delay()` and keep the game responsive. The gameplay is implemented as a **state machine** using `millis()` timers:
-
-- **Game states** (`gameState`): INTRO, TUTORIAL, MENU, EXPLORE, COMBAT, PAUSE, WIN, LOSE.
-- Each `loopX()` function handles one state (e.g. `loopExplore()`, `loopCombat()`).
-- Timed sequences (intro texts, tutorial, enemy turn messages, animations) use:
-  - an enum for sub‑states,
-  - `unsigned long stateStartTime`,
-  - `if (millis() - stateStartTime >= duration)` to progress.
-
-Examples:
-
-- Tutorial intro:
-  - sequences of texts and the spell hint are implemented with `TutorialIntroState` and `tutorialIntroStateStart`.
-- Enemy turn:
-  - `enemyTurnActive`, `enemyMessageActive`, `enemyTurnStartTime`, `enemyMessageStartTime` control delays between enemy action and message display without blocking the main loop.
-- Attack / shield animations:
-  - small internal animation states (`AttackAnimState`, `ShieldAnimState`) updated each frame via `updateAttackAnimation()` / `updateShieldAnimation()`.
-
-This design allows:
-- continuous polling of inputs,
-- multiple “timers” (animations, messages, blinking cursors, escape cooldown) running in parallel on a single‑threaded microcontroller.
 
 ---
 
@@ -307,34 +300,29 @@ This design allows:
 ## Design Philosophy
 
 ### 1. Clarity over complexity
-
 The game is built as small, clear state machines instead of nested `if` + `delay()` chains.  
 Each state has its own `loopX()`, and timed events use `state + timestamp`, which makes behavior easier to understand and debug on hardware.
 
 ### 2. Risk–Reward Combat
-
 Attack, Shield, Stun, and Escape are designed to force choices, not button‑mashing.  
 Attack is strong, Shield trades a turn for safety, Stun is powerful but situational, and Escape always costs at least one enemy turn and a full reset of the fight, pushing the player to think about enemy intent and timing.
 
 ### 3. Hardware as Game Mechanic
-
 Core mechanics are mapped directly to hardware:  
 the 8×8 matrix for rune‑drawing spells, the HC‑SR04 for a physical “panic escape” gesture, and the buzzer for instant feedback.  
 Limited I/O becomes part of the game design rather than a constraint.
 
 ### 4. Non‑blocking Flow
-
 Using `millis()` instead of `delay()` keeps the loop responsive, allows multiple parallel timers (animations, messages, cooldowns), and makes it easier to add new effects without freezing the rest of the game.
 
-***
-## Showcase
+---
 
-![1a](https://github.com/user-attachments/assets/565df2c6-26a3-4bcf-9333-5c7a8eac5def)
-![2a](https://github.com/user-attachments/assets/5bda1610-de58-4da1-8d5f-0f44a3d5975a)
-![3a](https://github.com/user-attachments/assets/c35d0e63-7b2e-4af9-bb11-03d3eeb14426)
-![4a](https://github.com/user-attachments/assets/453d5ab6-dbff-408c-a7bc-d66316ca5838)
+## How to Build & Run
 
-
-[Video](https://youtu.be/qKX8waVqMMQ)
-
-***
+1. **Wire the hardware** according to the pinout above.
+2. Open the `.ino` sketch in **Arduino IDE**.
+3. Make sure you have:
+   - `LedControl.h`
+   - `LiquidCrystal.h`
+4. Upload the sketch to the Arduino UNO.
+5. After reset, the game starts in the **Main Menu**.
