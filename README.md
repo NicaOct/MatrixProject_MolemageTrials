@@ -6,13 +6,15 @@
 
 ## Showcase
 
-![1a](https://github.com/user-attachments/assets/565df2c6-26a3-4bcf-9333-5c7a8eac5def)
-![2a](https://github.com/user-attachments/assets/5bda1610-de58-4da1-8d5f-0f44a3d5975a)
-![3a](https://github.com/user-attachments/assets/c35d0e63-7b2e-4af9-bb11-03d3eeb14426)
-![4a](https://github.com/user-attachments/assets/453d5ab6-dbff-408c-a7bc-d66316ca5838)
+| Viewport Display | Rune Interface |
+| :---: | :---: |
+| ![1a](https://github.com/user-attachments/assets/565df2c6-26a3-4bcf-9333-5c7a8eac5def) | ![2a](https://github.com/user-attachments/assets/5bda1610-de58-4da1-8d5f-0f44a3d5975a) |
+| **Dungeon Exploration** | **Combat Encounter** |
+| ![3a](https://github.com/user-attachments/assets/c35d0e63-7b2e-4af9-bb11-03d3eeb14426) | ![4a](https://github.com/user-attachments/assets/453d5ab6-dbff-408c-a7bc-d66316ca5838) |
 
-[Video](https://youtu.be/qKX8waVqMMQ)
-
+#### Watch the Technical Demonstration
+[![Molemage Trials Demo](https://img.youtube.com/vi/qKX8waVqMMQ/maxresdefault.jpg)](https://youtu.be/qKX8waVqMMQ)
+*Click to view the full gameplay video on YouTube.*
 ---
 
 ## Project Objectives
